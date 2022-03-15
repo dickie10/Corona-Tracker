@@ -1,0 +1,4 @@
+mysql_hostname: "localhost"
+mysql_username: "shishir"
+mysql_password: "Xhacker@0000"
+mysql_database: "corona_archive"
