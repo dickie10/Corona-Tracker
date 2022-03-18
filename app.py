@@ -178,6 +178,16 @@ def registration_navigation_page(**kwargs):
     return render_template(url, **kwargs)
 
 
+@app.route('/', methods=['POST', 'GET'])
+@app.route('/index', methods=['POST', 'GET'])
+@auto.doc()
+def index():
+    """Index page backend
+
+    Content:
+        Here users can go to login or registration page
+    """
+    return index_page()
 
 @app.route('/login', methods=['GET', 'POST'])
 @auto.doc()
@@ -366,6 +376,20 @@ def visitor_registration():
         In case of password mismatch or duplicate username, visitor have to retry again with
         proper credentials
     """
+
+    try: 
+        if session['is_logged_in'] and session['user_type']:
+            if session['user_type'] ==  "visitor":
+                return visitor_portal()
+            elif session['user_type'] ==  "place":
+                return place_portal()
+            elif session['user_type'] ==  "agent":
+                return agent_portal()
+            elif session['user_type'] ==  "hospital":
+                return hospital_portal()
+    except:
+        pass
+
     if request.method == 'POST':
         commit_flag = True
         age_flag = False
@@ -418,6 +442,20 @@ def place_registration():
         In case of password mismatch or duplicate username, establishment owners have to retry again with
         proper credentials.
     """
+
+    try: 
+        if session['is_logged_in'] and session['user_type']:
+            if session['user_type'] ==  "visitor":
+                return visitor_portal()
+            elif session['user_type'] ==  "place":
+                return place_portal()
+            elif session['user_type'] ==  "agent":
+                return agent_portal()
+            elif session['user_type'] ==  "hospital":
+                return hospital_portal()
+    except:
+        pass
+
     if request.method == 'POST':
         commit_flag = True
         confirm_password_flag = False
@@ -454,28 +492,34 @@ def place_registration():
         return place_registration_page()
 
 
-@app.route('/', methods=['POST', 'GET'])
-@app.route('/index', methods=['POST', 'GET'])
-def index():
-    """Index page backend
 
-    Content:
-        Here users can go to login or registration page
-    """
-    return index_page()
 
 @app.route('/registration_navigation', methods=['POST', 'GET'])
+@auto.doc()
 def registration_navigation():
     """Registration navigation backend
 
     Content:
         Navigate between visitor or establishemnt owner registration page
     """
+    try: 
+        if session['is_logged_in'] and session['user_type']:
+            if session['user_type'] ==  "visitor":
+                return visitor_portal()
+            elif session['user_type'] ==  "place":
+                return place_portal()
+            elif session['user_type'] ==  "agent":
+                return agent_portal()
+            elif session['user_type'] ==  "hospital":
+                return hospital_portal()
+    except:
+        pass
     return registration_navigation_page()
 
 @app.route('/docs')
+@auto.doc()
 def documentation():
     return auto.html(title='Corona Archive API documentation')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
