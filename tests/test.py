@@ -33,12 +33,12 @@ class FlaskTestCase(unittest.TestCase):
     def test_visitor_registration_page(self):
         tester = app.test_client(self)
         response = tester.get('/visitor_registration', content_type="html/text")
-        self.assertIn(b'Visitor registration', response.data)
+        self.assertIn(b'Register as Visitor', response.data)
     #The establishment owner registration page
     def test_place_registration_page(self):
         tester = app.test_client(self)
         response = tester.get('/place_registration', content_type="html/text")
-        self.assertIn(b'Establishment registration', response.data)
+        self.assertIn(b'Register as Establishment', response.data)
     
     #Test for successful login. Here please change the username and password by the avaliable data in the database.
     def test_visitor_login_success(self):
