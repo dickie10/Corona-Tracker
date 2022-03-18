@@ -52,7 +52,7 @@ The Corona Archive project is a web application which aims to control the spread
 ```
 pip3 install Flask
 ```
-* Virtual Env
+* Virtual Env:
 You must have virtual environment module installed in default (generally).
 
 ## Installation Guide
