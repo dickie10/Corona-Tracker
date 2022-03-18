@@ -114,7 +114,7 @@ http://localhost:5000/docs
 Run this code once you are on the entire environment
 
 ```sh
-$ python3 tests/test_sprint1.py
+$ python3 tests/test.py
 ```
 
 ## Acknowledgments
