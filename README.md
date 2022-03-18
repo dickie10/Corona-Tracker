@@ -53,9 +53,7 @@ The Corona Archive project is a web application which aims to control the spread
 pip3 install Flask
 ```
 * Virtual Env
-```
-sudo pip3 install virtualenv 
-```
+You must have virtual environment module installed in default (generally).
 
 ## Installation Guide
 
@@ -65,7 +63,7 @@ git clone https://github.com/Magrawal17/SE-Sprint01-Team23.git -> only for sampl
 cd SE-Sprint01-Team23/
 
 # Create virtual environment
-$ virtualenv se-env
+$ python3 -m venv se-env
 
 # Start virtual environment
 $ source se-env/bin/activate
