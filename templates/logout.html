@@ -1,0 +1,33 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="header">
+    <div class="navbar">
+        <h1 class="logo"> &#128681 Corona Archive</h1>					
+    </div>
+</div>
+
+<center>
+{% if logout_success %}
+
+    <p style="color:green"> You have successfully logged out </p>
+    <form action="{{url_for('login')}}", method = "GET">
+        <input type="submit" value="Login agin"> <br><br>
+    </form>
+    <form action="{{url_for('index')}}", method = "GET">
+        <input type="submit" value="Back to home"> <br><br>
+    </form>
+
+{%endif %}
+</center>
+
+
+{% endblock %}

@@ -1,0 +1,97 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+
+
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="header">
+		<div class="navbar">
+			<h1 class="logo"> &#128681 Corona Archive
+				<div class="header-right">
+					<a class="active" href = "{{url_for('visitor_registration')}}">Register as Visitor</a>
+				</div>
+			</h1>					
+		</div>
+	</div>
+
+	<form>
+		<input style="border: none;	border-radius: 4px; position: fixed; top: 90px; left: 1px;
+		font-weight: bold; color: white; background-color: rgba(255, 0, 0, 0.7); padding: 5px 10px;  
+		text-align: center;	font-size: 20px; font-family: Century Gothic; cursor: pointer;" 
+		type="button" value="&#8592 Go Back" onclick="history.back()">
+	</form>
+	
+	<center>
+	
+		{%if success_registration %}
+			<div class="callout">
+				<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">×</span>
+				<div class="fade-in-text callout-container">
+				<p style="color:green"> Success </p>
+				</div>
+			</div>
+
+		{%else %}
+			<form action="{{url_for('visitor_registration')}}", method = "POST">
+				<label for="username">Username:</label><br>
+				<input type="text" id="username" name="username"><br>
+				<label for="password">Password:</label><br>
+				<input type="password" id="password" name="password"><br>
+				<label for="confirm_password">Confirm your password:</label><br>
+				<input type="password" id="confirm_password" name="confirm_password"><br>
+				<label for="first_name">First name:</label><br>
+				<input type="text" id="first_name" name="first_name"><br>
+				<label for="last_name">Last name:</label><br>
+				<input type="text" id="last_name" name="last_name"><br>
+				<label for="age">Age:</label><br>
+				<input type="number" id="age" name="age" min="0" max="120"><br>
+				<label for="gender">Gender:</label><br>
+				<input type="text" id="gender" name="gender"><br>
+				<input type="submit" value="Submit"> <br><br>
+			</form>
+
+			
+			{%if internal_server_error %}
+			<div class="callout">
+				<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">×</span>
+				<div class="fade-in-text callout-container">
+					<p style="color:red">Internal Server Error. Please try again later</p>
+			{% endif %}
+
+			{%if dup_user_error%}
+			<div class="callout">
+				<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">×</span>
+				<div class="fade-in-text callout-container">
+					<p style="color:red">Username already exists. Please try another</p>
+				</div>
+			</div>
+			{% endif %}
+
+			{%if age_error %}
+			<div class="callout">
+				<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">×</span>
+				<div class="fade-in-text callout-container">
+					<p style="color:red">Please enter a valid age.</p>
+				</div>
+			</div>
+			{% endif %}
+
+			{%if confirm_password_error %}
+			<div class="callout">
+				<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">×</span>
+				<div class="fade-in-text callout-container">				
+					<p style="color:red">Password donot match. Please try again</p>
+				</div>
+			</div>
+			{% endif %}
+
+		{%endif%}
+		
+	</center>
+
+{% endblock %}
