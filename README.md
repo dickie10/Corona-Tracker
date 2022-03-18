@@ -99,7 +99,7 @@ We tried using ClamV so that it would be easier for the user. However clamv did 
 mysql_host: "localhost"
 mysql_user: "{YOUR USERNAME CHANGE THIS WHEN TYPING IN YOUR COMPUTER}"
 mysql_password: "{YOUR PASSWORD CHANGE THIS WHEN TYPING IN YOUR COMPUTER}"
-mysql_db: "se_team23"
+mysql_db: "corona_archive"
 ```
 
 # View Documentation
