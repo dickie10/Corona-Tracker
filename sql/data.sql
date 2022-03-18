@@ -20,15 +20,6 @@
 --
 
 
-IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'DataBase')
-  BEGIN
-    CREATE DATABASE [DataBase]
-
-
-  END		
-  GO
-  USE [DataBase]
-  GO
 
 DROP TABLE IF EXISTS `agent`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
