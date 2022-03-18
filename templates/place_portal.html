@@ -18,9 +18,9 @@
 		<input style="border: none;	border-radius: 4px; position: fixed; top: 90px; left: 1px;
 		font-weight: bold; color: white; background-color: rgba(255, 0, 0, 0.7); padding: 5px 10px;  
 		text-align: center;	font-size: 20px; font-family: Century Gothic; cursor: pointer;" 
-		type="button" value="&#8592 Go Back" onclick="history.back()">
-		<input type ="button" value="&#8592 Logout" onclick="{{url_for('logout')}}">
+		type="button" value="&#8592 Logout" onclick="location.href = '{{url_for('logout')}}'">
 	</form>
+	
 	
 	<center>
 		<br><br><br><br><br><br>
