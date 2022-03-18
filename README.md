@@ -96,8 +96,8 @@ $ python3 app.py
 We tried using ClamV so that it would be easier for the user. However clamv did not support the required flask dependices to run this program.
 
 ```yaml
-mysql_host: "localhost"
-mysql_user: "{YOUR USERNAME CHANGE THIS WHEN TYPING IN YOUR COMPUTER}"
+mysql_hostname: "localhost"
+mysql_username: "{YOUR USERNAME CHANGE THIS WHEN TYPING IN YOUR COMPUTER}"
 mysql_password: "{YOUR PASSWORD CHANGE THIS WHEN TYPING IN YOUR COMPUTER}"
 mysql_db: "corona_archive"
 ```
