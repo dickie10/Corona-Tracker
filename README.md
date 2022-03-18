@@ -75,6 +75,8 @@ $ pip3 install -r requirements.txt
 $ mysql -u {YOUR CURRENT USERNAME OR ROOT} -p
 
 # Run this command in MYSQL command line to create required database.
+mysql>create database corona_archive;
+mysql>use corona_archive;
 mysql> source sql/data.sql
 mysql> exit
 
