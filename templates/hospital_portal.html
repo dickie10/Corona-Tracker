@@ -1,8 +1,12 @@
-{% extends 'base.html' %}
+
 
 {% block head %}
-
-
+	<title>Hospital portal</title>	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 {% endblock %}
 
 
@@ -10,23 +14,83 @@
 
 	<div class="header">
 		<div class="navbar">
-			<h1 class="logo"> &#128681 Corona Archive</h1>					
+			<h1 class="logo"> &#128681 Corona Archive</h1> 					
 		</div>
 	</div>
 
 	<form>
 		<input style="border: none;	border-radius: 4px; position: fixed; top: 90px; left: 1px;
 		font-weight: bold; color: white; background-color: rgba(255, 0, 0, 0.7); padding: 5px 10px;  
-		text-align: center;	font-size: 20px; font-family: Century Gothic; cursor: pointer;" 
+		text-align: center;	font-size: 20px; font-family: Century Gothic; cursor: pointer;margin-left:1210px;margin-top:-80px" 
 		type="button" value="&#8592 Logout" onclick="location.href = '{{url_for('logout')}}'">
 	</form>
 	
 	
 	<center>
-		<br><br><br><br><br><br>
-		<a class="fade-in-text button">
-			<b>Welcome hospital! This is your portal</b>
-		</a>
+		<div class="container">
+			<h2>Hospital portal</h2>
+			<p>Type something in the input field to search the table for names:</p>   
+			<form action="/change" method="POST">
+			<input class="form-control" id="myInput" type="text" name="search" placeholder="Search..">
+			<br> 
+			<button type="submit" style="margin-left: 50px;">Submit</button> 
+			</form>
+			<table class="table table-bordered table-striped" style="margin-top:15px" id="val">
+			  <thead>
+				<tr>
+				  <th>Citizen_id</th>
+				  <th>First Name</th> 
+				  <th>Last Name</th>
+				  <th>Email</th> 
+				  <th>Phone-number</th> 
+				  <th>address</th> 
+				  <th>Infected</th> 
+				</tr>
+			  </thead>
+			  <tbody id="myTable">
+				{% for row in data %}
+					  <tr>
+						  <td>{{row[0]}}</td>
+						  <td>{{row[1]}}</td>
+						  <td>{{row[2]}}</td>
+						  <td>{{row[3]}}</td> 
+						  <td>{{row[4]}}</td> 
+						  <td>{{row[5]}}</td> 
+						  <td class="in-data">{{row[6]}}</td> 
+						  <td><button onclick="myfun()">Edit</button></td>
+					  </tr>
+				  {% endfor %}    
+			  </tbody>
+			</table>
+			<form  action="/append" style="display: none;" id="form" method="POST">
+			  <div class="form-group">
+				<label for="exampleInputEmail1">User ID</label>
+				<input type="text" class="form-control" name="id" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter userid">
+				<small id="emailHelp" class="form-text text-muted">Enter valid id.</small>
+			  </div>
+			  <div class="form-group">
+				<label for="exampleInputPassword1">Change Infected</label>
+				<input type="text" class="form-control" name="Infected" id="exampleInputPassword1" placeholder="change Infected">
+			  </div>
+			  <button type="submit" onclick="newfun()" class="btn btn-primary">Submit</button>
+			</form>
+		  
+		  </div> 
+		  
+		  
+		  <script>
+			function myfun()
+		  {
+			  if (document.getElementById("form").style.display === "none")
+				  document.getElementById("form").style.display="block";
+			  else
+				  document.getElementById("form").style.display="none";
+		  }
+		  </script>  
+		  <script>
+			document.getElementById("form").style.display="none";
+		  </script>
+		  
 	</center>
 	
 {% endblock %}

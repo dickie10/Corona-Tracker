@@ -61,7 +61,7 @@ def check_login_info(cur, table: str, username: str, password: str) -> Union[tup
     except:
         return -1
 
-def insert_visitor_login_info(cur, username: str, password: str, first_name: str, last_name: str, age: int, gender: str) -> int:
+def insert_visitor_login_info(cur, username: str, password: str, first_name: str, last_name: str, age: int, gender: str,infected: int, address: str, email: str, phonenumber: str) -> int:
     """Function to insert visitor credentials to database
 
     Args:
@@ -79,22 +79,27 @@ def insert_visitor_login_info(cur, username: str, password: str, first_name: str
         -1 for error
         1062 for entering duplicate username
     """
+    
+    print("in try")
+    cur.execute("SELECT * FROM visitor WHERE username=%s;", (username,))
+    info = cur.fetchone()
+    if info is not None:
+        return 1062 
     try:
-        cur.execute("SELECT * FROM visitor WHERE username=%s;", (username,))
-        info = cur.fetchone()
-        if info is not None:
-            return 1062
         cur.execute(
-            'INSERT INTO visitor(username, pass, first_name, last_name, age, gender) VALUES("{username}", "{password}", "{first_name}", "{last_name}", {age}, "{gender}");'
+            'INSERT INTO visitor(username, pass, first_name, last_name, age, gender,infected,address,email,phonenumber) VALUES("{username}", "{password}", "{first_name}", "{last_name}", "{age}", "{gender}", "{infected}" , "{address}" ,"{email}", "{phonenumber}");'
             .format(username = username,
                     password = password,
                     first_name = first_name,
                     last_name = last_name,
                     age = age,
-                    gender = gender))
-        
+                    gender = gender, 
+                    infected = infected,
+                    address=address,
+                    email=email,
+                    phonenumber=phonenumber))
     except:
-        return -1
+        return -1    
     mysql.connection.commit()
     return 0
 
@@ -404,16 +409,23 @@ def visitor_registration():
         first_name = register_credentials["first_name"]
         last_name = register_credentials["last_name"]
         age = register_credentials["age"]
-        gender = register_credentials["gender"]
+        gender = register_credentials["gender"] 
+        address = register_credentials["address"] 
+        email = register_credentials["email"]  
+        infected = 0
+        phonenumber = register_credentials["phonenumber"] 
+        print("before the commit")
         if int(age) > 120 or int(age) < 0:
             commit_flag = False
             age_flag = True
         if password != confirm_password:
             commit_flag = False
             confirm_password_flag = True
-        if commit_flag:
+        if commit_flag: 
+            print("sql connected")
             cur = mysql_connect()
-            err = insert_visitor_login_info(cur, username, password, first_name, last_name, age, gender)
+            err = insert_visitor_login_info(cur, username, password, first_name, last_name, age, gender,infected,address,email,phonenumber) 
+            print("after err")
             if err != 0:
                 if err == 1062:
                     dup_user_flag = True
@@ -492,6 +504,35 @@ def place_registration():
         return place_registration_page()
 
 
+@app.route('/change', methods=['POST', 'GET']) 
+def change():  
+    cur = mysql_connect()
+    if request.method == 'POST': 
+        vist_search = request.form["search"]
+        sql = f"SELECT user_id,first_name,last_name,email,phonenumber,address,infected from visitor WHERE first_name='{vist_search}';"  
+        cur.execute(sql)  
+        data = cur.fetchall()  
+        return render_template("hospital_portal.html", data=data)  
+    else: 
+        return render_template("hospital_portal.html")
+@app.route('/append', methods=['POST', 'GET']) 
+def append():     
+    cursor = mysql_connect() 
+    if request.method == "POST":  
+        vist_id = request.form["id"] 
+        vist_inf = request.form["Infected"]  #infected 0 being false and 1 being true
+        stat = f"SELECT * from visitor WHERE user_id='{vist_id}';" #updating the infected the value 
+        cursor.execute(stat) 
+        value = cursor.fetchone()
+        if (int(vist_inf) == 1 or int(vist_inf) == 0) and value != None:  #checking for valif id and infected value
+            cursor.execute("UPDATE visitor SET infected = %s WHERE user_id = %s", 
+               (vist_inf,vist_id,))
+            mysql.connection.commit()
+            return render_template("hospital_portal.html") 
+        else:  
+            return "Infected should be between 0 and 1 or wrong id"
+    else: 
+        return render_template("hospital_portal.html")
 
 
 @app.route('/registration_navigation', methods=['POST', 'GET'])
