@@ -2,7 +2,8 @@ from flask import Flask, render_template, url_for, request, redirect, session
 from flask_mysqldb import MySQL
 from datetime import datetime
 from flask_selfdoc import Autodoc
-import yaml
+import yaml 
+import qrcode 
 import os
 from typing import List, Tuple, Union
 
@@ -147,8 +148,7 @@ def logout_page(**kwargs):
     return render_template(url, **kwargs)
 
 def visitor_portal_page(**kwargs):
-    url = "visitor_portal.html"
-    return render_template(url, **kwargs)
+    return render_template("scancam.html")
 
 def place_portal_page(**kwargs):
     url = "place_portal.html"
