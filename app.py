@@ -24,11 +24,12 @@ def mysql_connect():
     Returns:
         mysql.connection.cursor: Cursor for the connection
     """
-    try:
-        cursor = mysql.connection.cursor()
-        return cursor
-    except:
-        return -1
+    #try:
+    cursor = mysql.connection.cursor()
+    return cursor
+    #except:
+    #print("error in database connection")
+    #return -1
 
 def check_login_info(cur, table: str, username: str, password: str) -> Union[tuple, int]:
     """Check login info
@@ -197,6 +198,7 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 @auto.doc()
 def login():
+    print("in login")
     """Login page backend
 
     Form Data: 
@@ -224,6 +226,7 @@ def login():
         user_type = request.form['user_type']
         cur = mysql_connect()
         if cur != -1:
+            print("here")
             account_info = check_login_info(cur, user_type, username, password)
         else:
             return login_page(internal_server_error=True)
@@ -267,6 +270,7 @@ def login():
                     return hospital_portal()
             else:
                 cur.close()
+                
                 return login_page(invalid_credentials=True)
         else:
             cur.close()
@@ -563,4 +567,5 @@ def documentation():
     return auto.html(title='Corona Archive API documentation')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
+
