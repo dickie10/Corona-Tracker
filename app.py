@@ -9,7 +9,6 @@ from typing import List, Tuple, Union
 
 app = Flask(__name__)
 auto = Autodoc(app)
-
 db = yaml.safe_load(open('db.yaml'))
 app.secret_key = 'se-team23'
 app.config['MYSQL_HOST'] = db['mysql_hostname']
@@ -105,7 +104,7 @@ def insert_visitor_login_info(cur, username: str, password: str, first_name: str
     mysql.connection.commit()
     return 0
 
-def insert_place_login_info(cur, username: str, password: str, place_name: str, place_owner_full_name: str, place_address: str, place_postal_code: int) -> int:
+def insert_place_login_info(cur, username: str, password: str, place_name: str, place_owner_full_name: str, place_address: str, place_postal_code: int, word: str) -> int:
 
     """Function to insert establishment owners credentials.
 
@@ -130,13 +129,14 @@ def insert_place_login_info(cur, username: str, password: str, place_name: str, 
         if info is not None:
             return 1062
         cur.execute(
-            'INSERT INTO place(username, pass, place_name, place_owner_full_name, place_address, place_postal_code) VALUES("{username}", "{password}", "{place_name}", "{place_owner_full_name}", "{place_address}", "{place_postal_code}");'
+            'INSERT INTO place(username, pass, place_name, place_owner_full_name, place_address, place_postal_code,QRcode) VALUES("{username}", "{password}", "{place_name}", "{place_owner_full_name}", "{place_address}", "{place_postal_code}","{word}");'
             .format(username = username,
                     password = password,
                     place_name = place_name,
                     place_owner_full_name = place_owner_full_name,
                     place_address = place_address,
-                    place_postal_code = place_postal_code))
+                    place_postal_code = place_postal_code,
+                    word = word))
         
     except:
         return -1
@@ -151,13 +151,11 @@ def logout_page(**kwargs):
 def visitor_portal_page(**kwargs):
     return render_template("scancam.html")
 
-def place_portal_page(**kwargs):
-    url = "place_portal.html"
-    return render_template(url, **kwargs)
+def place_portal_page(**kwargs):  
+    return render_template("qrgen.html")
 
 def agent_portal_page(**kwargs):
-    url = "agent_portal.html"
-    return render_template(url, **kwargs)
+    return render_template("agent_portal.html")
 
 def hospital_portal_page(**kwargs):
     url = "hospital_portal.html"
@@ -352,7 +350,12 @@ def place_portal():
         Here establishment owner can check who arrived at their establishment and allow visitors to enter
     """
     try:
-        if session['is_logged_in'] == True and session['user_type'] == "place":
+        if session['is_logged_in'] == True and session['user_type'] == "place":  
+            cur = mysql_connect()
+            cur.execute("SELECT QRcode FROM place WHERE username=%s;", (session['username'],)) 
+            value = cur.fetchone()  
+            img = qrcode.make(value) #qr code generated 
+            img.save("./static/img/trail.jpg")
             return place_portal_page(username = session['username'],
                                 place_name = session['place_name'],
                                 place_owner_full_name = session['place_owner_full_name'],
@@ -373,7 +376,9 @@ def logout():
     """
     session.clear()
     return logout_page(logout_success = True)
-
+@app.route('/addhospital', methods=['GET']) 
+def addhospital(): 
+    return render_template('agenthospital.html')
 
 @app.route('/visitor_registration', methods=['GET', 'POST'])
 @auto.doc()
@@ -416,7 +421,7 @@ def visitor_registration():
         gender = register_credentials["gender"] 
         address = register_credentials["address"] 
         email = register_credentials["email"]  
-        infected = 0
+        infected = 0 
         phonenumber = register_credentials["phonenumber"] 
         print("before the commit")
         if int(age) > 120 or int(age) < 0:
@@ -472,7 +477,8 @@ def place_registration():
     except:
         pass
 
-    if request.method == 'POST':
+    if request.method == 'POST': 
+        word = ""
         commit_flag = True
         confirm_password_flag = False
         dup_user_flag = False
@@ -489,9 +495,11 @@ def place_registration():
         if password != confirm_password:
             commit_flag = False
             confirm_password_flag = True
-        if commit_flag:
+        if commit_flag: 
+            word = str(username) + str(place_name) + str(place_postal_code) 
+            print(word) 
             cur = mysql_connect()
-            err = insert_place_login_info(cur, username, password, place_name, place_owner_full_name, place_address, place_postal_code)
+            err = insert_place_login_info(cur, username, password, place_name, place_owner_full_name, place_address, place_postal_code,word)
             if err != 0:
                 if err == 1062:
                     dup_user_flag = True
