@@ -24,7 +24,6 @@ CREATE TABLE `agent` (
 )  AUTO_INCREMENT=101 ;
 
 
-<<<<<<< HEAD
 LOCK TABLES `agent` WRITE;
 /*!40000 ALTER TABLE `agent` DISABLE KEYS ;*/
 INSERT INTO `agent` VALUES (100,'q','q',NULL,NULL,NULL);
@@ -47,7 +46,6 @@ CREATE TABLE `hospital` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `hospital_id` (`hospital_medical_id`)
 ) AUTO_INCREMENT=101;
-<<<<<<< HEAD
 /*!40101 SET character_set_client = @saved_cs_client ;*/
 
 --
@@ -59,10 +57,6 @@ LOCK TABLES `hospital` WRITE;
 INSERT INTO `hospital` VALUES (100,'q','q',NULL,'1');
 /*!40000 ALTER TABLE `hospital` ENABLE KEYS ;*/
 UNLOCK TABLES;
-=======
-
-INSERT INTO `hospital` VALUES (100,'q','q',NULL,'1');
->>>>>>> database change
 
 
 
@@ -80,22 +74,10 @@ CREATE TABLE `place` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`)
 ) AUTO_INCREMENT=104 ;
-<<<<<<< HEAD
-/*!40101 SET character_set_client = @saved_cs_client ;*/
-=======
->>>>>>> database change
 
 
-<<<<<<< HEAD
-LOCK TABLES `place` WRITE;
-/*!40000 ALTER TABLE `place` DISABLE KEYS ;*/
-INSERT INTO `place` VALUES (100,'q','q','q','q','q',1),(101,'w','w','w','w','w',1),(102,'dsaf','q','q','q','q',12),(103,'sdfvasdfva','1','1','1','1',1);
-/*!40000 ALTER TABLE `place` ENABLE KEYS ;*/
-UNLOCK TABLES;
-=======
 INSERT INTO `place` VALUES (100,'q','q','q','q','q',1,'qqpp1');
 
->>>>>>> database change
 
 
 DROP TABLE IF EXISTS `visitor`;
@@ -114,13 +96,9 @@ CREATE TABLE `visitor` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`)
 ) AUTO_INCREMENT=108 ;
-<<<<<<< HEAD
 /*!40101 SET character_set_client = @saved_cs_client ;*/
-=======
->>>>>>> database change
 
 
-<<<<<<< HEAD
 LOCK TABLES `visitor` WRITE;
 /*!40000 ALTER TABLE `visitor` DISABLE KEYS ;*/
 INSERT INTO `visitor` VALUES (102,'qq','qq','qq','qq',12,'qq'),(105,'asdf','aa','sdafs','asdfas',23,'dsaf'),(106,'adfas','12','dasfds','asdfas',12,'dgfasg'),(107,'1','1','1','1',1,'1');
@@ -152,9 +130,7 @@ CREATE TABLE `visitedPlace` (
   `leave_time` varchar(19),
   PRIMARY KEY (`visit_id`)
 ) AUTO_INCREMENT=108 ;
-=======
 INSERT INTO `visitor` VALUES (102,'qq','qq','qq','qq',12,'qq',0,"Bremen","qq@pp.com","98756232");
 
 
 
->>>>>>> database change
