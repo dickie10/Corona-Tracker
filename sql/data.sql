@@ -6,9 +6,7 @@
 
 
 
---
--- Table structure for table `agent`
---
+
 
 
 
@@ -25,19 +23,17 @@ CREATE TABLE `agent` (
   UNIQUE KEY `username` (`username`)
 )  AUTO_INCREMENT=101 ;
 
---
--- Dumping data for table `agent`
---
 
+<<<<<<< HEAD
 LOCK TABLES `agent` WRITE;
 /*!40000 ALTER TABLE `agent` DISABLE KEYS ;*/
 INSERT INTO `agent` VALUES (100,'q','q',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `agent` ENABLE KEYS ;*/
 UNLOCK TABLES;
+=======
+INSERT INTO `agent` VALUES (100,'q','q',NULL,NULL,NULL);
+>>>>>>> database change
 
---
--- Table structure for table `hospital`
---
 
 DROP TABLE IF EXISTS `hospital`;
 
@@ -51,6 +47,7 @@ CREATE TABLE `hospital` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `hospital_id` (`hospital_medical_id`)
 ) AUTO_INCREMENT=101;
+<<<<<<< HEAD
 /*!40101 SET character_set_client = @saved_cs_client ;*/
 
 --
@@ -62,10 +59,12 @@ LOCK TABLES `hospital` WRITE;
 INSERT INTO `hospital` VALUES (100,'q','q',NULL,'1');
 /*!40000 ALTER TABLE `hospital` ENABLE KEYS ;*/
 UNLOCK TABLES;
+=======
 
---
--- Table structure for table `place`
---
+INSERT INTO `hospital` VALUES (100,'q','q',NULL,'1');
+>>>>>>> database change
+
+
 
 DROP TABLE IF EXISTS `place`;
 
@@ -76,25 +75,28 @@ CREATE TABLE `place` (
   `place_name` varchar(255) DEFAULT NULL,
   `place_owner_full_name` varchar(255) DEFAULT NULL,
   `place_address` varchar(255) DEFAULT NULL,
-  `place_postal_code` int DEFAULT NULL,
+  `place_postal_code` int DEFAULT NULL, 
+  `QRcode` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`)
 ) AUTO_INCREMENT=104 ;
+<<<<<<< HEAD
 /*!40101 SET character_set_client = @saved_cs_client ;*/
+=======
+>>>>>>> database change
 
---
--- Dumping data for table `place`
---
 
+<<<<<<< HEAD
 LOCK TABLES `place` WRITE;
 /*!40000 ALTER TABLE `place` DISABLE KEYS ;*/
 INSERT INTO `place` VALUES (100,'q','q','q','q','q',1),(101,'w','w','w','w','w',1),(102,'dsaf','q','q','q','q',12),(103,'sdfvasdfva','1','1','1','1',1);
 /*!40000 ALTER TABLE `place` ENABLE KEYS ;*/
 UNLOCK TABLES;
+=======
+INSERT INTO `place` VALUES (100,'q','q','q','q','q',1,'qqpp1');
 
---
--- Table structure for table `visitor`
---
+>>>>>>> database change
+
 
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE `visitor` (
@@ -104,16 +106,21 @@ CREATE TABLE `visitor` (
   `first_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
   `age` int DEFAULT NULL,
-  `gender` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,  
+  `infected` int, 
+  `address` varchar(255) DEFAULT NULL,
+  `email` varchar(255)  DEFAULT NULL, 
+  `phonenumber` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`)
 ) AUTO_INCREMENT=108 ;
+<<<<<<< HEAD
 /*!40101 SET character_set_client = @saved_cs_client ;*/
+=======
+>>>>>>> database change
 
---
--- Dumping data for table `visitor`
---
 
+<<<<<<< HEAD
 LOCK TABLES `visitor` WRITE;
 /*!40000 ALTER TABLE `visitor` DISABLE KEYS ;*/
 INSERT INTO `visitor` VALUES (102,'qq','qq','qq','qq',12,'qq'),(105,'asdf','aa','sdafs','asdfas',23,'dsaf'),(106,'adfas','12','dasfds','asdfas',12,'dgfasg'),(107,'1','1','1','1',1,'1');
@@ -145,3 +152,9 @@ CREATE TABLE `visitedPlace` (
   `leave_time` varchar(19),
   PRIMARY KEY (`visit_id`)
 ) AUTO_INCREMENT=108 ;
+=======
+INSERT INTO `visitor` VALUES (102,'qq','qq','qq','qq',12,'qq',0,"Bremen","qq@pp.com","98756232");
+
+
+
+>>>>>>> database change
