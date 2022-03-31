@@ -25,12 +25,10 @@ def mysql_connect():
     Returns:
         mysql.connection.cursor: Cursor for the connection
     """
-    try:
-        cursor = mysql.connection.cursor()
-        return cursor
-    except:
-        print("error in database connection")
-        return -1
+    
+    cursor = mysql.connection.cursor()
+    return cursor
+    
 
 def check_login_info(cur, table: str, username: str, password: str) -> Union[tuple, int]:
     """Check login info
