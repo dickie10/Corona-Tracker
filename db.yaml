@@ -1,4 +1,4 @@
 mysql_hostname: 'localhost'
-mysql_username: 'suyash'
-mysql_password: 'oppa'
+mysql_username: 'jweske'
+mysql_password: '1234'
 mysql_database: 'corona_archive' 
