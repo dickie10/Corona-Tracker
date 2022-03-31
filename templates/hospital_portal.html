@@ -47,7 +47,15 @@
 				  <th>Infected</th> 
 				</tr>
 			  </thead>
-			  <tbody id="myTable">
+			  <tbody id="myTable"> 
+				{%if value %}
+					<div class="callout">
+					<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">×</span>
+					<div class="fade-in-text callout-container">				
+						NO data found
+				</div>
+			</div>
+			{% endif %}
 				{% for row in data %}
 					  <tr>
 						  <td>{{row[0]}}</td>

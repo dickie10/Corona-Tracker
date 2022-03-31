@@ -179,6 +179,10 @@ def place_registration_page(**kwargs):
 
 def registration_navigation_page(**kwargs):
     url = "registration_navigation.html"
+    return render_template(url, **kwargs) 
+
+def agent_add_hospital(**kwargs): 
+    url = "addhospital.html" 
     return render_template(url, **kwargs)
 
 def loged_into_place_page(**kwargs):
@@ -282,7 +286,27 @@ def login():
         return login_page()
     
 
-
+@app.route('/insert_agent_hospital', methods=['GET', 'POST']) 
+def insert_agent_hospital(cur,vist_name: str,vist_password: str,vist_hosp_name,vist_hosp_id): 
+    try:
+        cur.execute("SELECT * FROM hospital WHERE username=%s;", (vist_name,)) 
+        info = cur.fetchone()  
+        if info is not None:
+            return 1062 
+        cur.execute("SELECT * FROM hospital WHERE hospital_medical_id=%s;", (vist_hosp_id,)) 
+        info2 = cur.fetchone() 
+        if info2 is not None: 
+            return 1063 
+        cur.execute(
+                'INSERT INTO hospital(username, pass, hospital_name, hospital_medical_id) VALUES("{vist_name}", "{vist_password}", "{vist_hosp_name}", "{vist_hosp_id}");'
+                .format(vist_name = vist_name,
+                        vist_password = vist_password,
+                        vist_hosp_name = vist_hosp_name,
+                        vist_hosp_id = vist_hosp_id))
+    except:
+        return -1
+    mysql.connection.commit() 
+    return 0 
 
 @app.route('/visitor_portal', methods=['GET', 'POST'])
 @auto.doc()
@@ -312,7 +336,7 @@ def read_qr_code():
             print(code)
 
             #Creating the sql call to find the place associated with the just received code
-            sql_select_from_place = f"SELECT user_id, place_name from place WHERE QRcode='{code}';"  
+            sql_select_from_place = f"SELECT user_id, place_name from place WHERE QRcode='{code}';"   
             con = mysql_connect()
             con.execute(sql_select_from_place)
             data = con.fetchall() 
@@ -354,7 +378,7 @@ def read_qr_code():
         else:
             return login_page()
     except:
-        return login_page()
+        return render_template("erroecodepage.html")
 
 def getCurrentDateAndTime():
     now = datetime.now()
@@ -484,7 +508,7 @@ def logout():
     return logout_page(logout_success = True)
 @app.route('/addhospital', methods=['GET']) 
 def addhospital(): 
-    return render_template('agenthospital.html')
+    return render_template('addhospital.html')
 
 @app.route('/visitor_registration', methods=['GET', 'POST'])
 @auto.doc()
@@ -625,11 +649,16 @@ def place_registration():
 @app.route('/change', methods=['POST', 'GET']) 
 def change():  
     cur = mysql_connect()
-    if request.method == 'POST': 
+    if request.method == 'POST':  
+        value = False
         vist_search = request.form["search"]
         sql = f"SELECT user_id,first_name,last_name,email,phonenumber,address,infected from visitor WHERE first_name='{vist_search}';"  
         cur.execute(sql)  
         data = cur.fetchall()  
+        if data is None: 
+            value = True  
+            return render_template("hospital_portal.html", value=value) 
+
         return render_template("hospital_portal.html", data=data)  
     else: 
         return render_template("hospital_portal.html")
@@ -652,6 +681,51 @@ def append():
     else: 
         return render_template("hospital_portal.html")
 
+@app.route('/agentaddhospital', methods=['POST', 'GET'])
+def agentaddhospital(): 
+    try: 
+        if session['is_logged_in'] and session['user_type'] == "agent":
+            if request.method == "POST": 
+                commit_flag = True
+                age_flag = False
+                confirm_password_flag = False
+                dup_user_flag = False  
+                dup_user_id = False
+                success_registration_flag = False
+                internal_server_error_flag = False
+                vist_name = request.form["username"] 
+                vist_password = request.form["password"] 
+                vist_pass_cnf = request.form["confirm_password"] 
+                vist_hosp_name = request.form["hosp_name"] 
+                vist_hosp_id = request.form["hosp_id"]  
+                if vist_password != vist_pass_cnf:
+                    commit_flag = False
+                    confirm_password_flag = True 
+                if commit_flag: 
+                    cur = mysql_connect()   
+                    err = insert_agent_hospital(cur,vist_name,vist_password,vist_hosp_name,vist_hosp_id)
+                    if err != 0: 
+                        if err == 1062:
+                            dup_user_flag = True 
+                        if err == 1063: 
+                            dup_user_id = True
+                        elif err == -1: 
+                            internal_server_error_flag = True
+                    cur.close() 
+                if not internal_server_error_flag and not dup_user_flag and not age_flag and not confirm_password_flag:
+                        success_registration_flag  = True
+                return agent_add_hospital(success_registration=success_registration_flag,
+                                    internal_server_error = internal_server_error_flag,
+                                    dup_user_error = dup_user_flag,
+                                    age_error = age_flag, 
+                                    dup_id_error = dup_user_id, 
+                                    confirm_password_error = confirm_password_flag) 
+            else: 
+                return agent_add_hospital()
+        
+    except:
+        pass
+    
 
 @app.route('/registration_navigation', methods=['POST', 'GET'])
 @auto.doc()

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
 
 {% endblock %}
 
@@ -23,9 +23,9 @@
 	
 	<center>
 		<br><br><br><br><br><br>
-		<button style="border-raduis:50px;width:800px;background-color: rgb(0,0,0);"><h1 style="color:rgb(255,255,255)">Add Hospitals</h1></button> 
+		<button style="border-raduis:50px;width:800px;background-color: rgb(0,0,0);" onclick="location.href = '{{url_for('addhospital')}}'"><h1 style="color:rgb(255,255,255)">Add Hospitals</h1></button> 
 		<br><br><br><br><br><br> 
-		<button style="border-raduis:50px;width:800px;background-color: rgb(0,0,0);"><h1 style="color:rgb(255,255,255)">Query</h1></button>
+		<button style="border-raduis:50px;width:800px;background-color: rgb(0,0,0);"><h1 style="color:rgb(255,255,255)">Query</h1></button> 
 	</center>
 	
 {% endblock %}
