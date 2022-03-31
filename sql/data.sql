@@ -29,9 +29,6 @@ LOCK TABLES `agent` WRITE;
 INSERT INTO `agent` VALUES (100,'q','q',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `agent` ENABLE KEYS ;*/
 UNLOCK TABLES;
-=======
-INSERT INTO `agent` VALUES (100,'q','q',NULL,NULL,NULL);
->>>>>>> database change
 
 
 DROP TABLE IF EXISTS `hospital`;

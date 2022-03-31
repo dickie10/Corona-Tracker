@@ -7,6 +7,7 @@ import qrcode
 import os
 from typing import List, Tuple, Union
 import json
+from datetime import date
 
 app = Flask(__name__)
 auto = Autodoc(app)
@@ -180,6 +181,10 @@ def registration_navigation_page(**kwargs):
     url = "registration_navigation.html"
     return render_template(url, **kwargs)
 
+def loged_into_place_page(**kwargs):
+    url = "logedIntoPlace.html"
+    return render_template(url, **kwargs)
+
 
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/index', methods=['POST', 'GET'])
@@ -298,19 +303,107 @@ def visitor_portal():
 @auto.doc()
 def read_qr_code():
     try:
+        print("here")
         if session['is_logged_in'] == True and session['user_type'] == "visitor":
+            print(request.method)
+            print(request.form)
+            code = request.form["input"]
+            print("The system received code:")
+            print(code)
 
-            json_object = json.loads(request.data)
-            print(json_object["code"])
-            print("HERE")
+            #Creating the sql call to find the place associated with the just received code
+            sql_select_from_place = f"SELECT user_id, place_name from place WHERE QRcode='{code}';"  
+            con = mysql_connect()
+            con.execute(sql_select_from_place)
+            data = con.fetchall() 
 
-            return json_object["code"]
+            #preparing the data for the insertion call
+            place_id = data[0][0]
+            place_name = data[0][1]
+            user_id = session['user_id']
+            #getting the current time and date 
+            arrival_time = getCurrentDateAndTime()
+            #logging the information for debuging
+            print("The current information which witch the user has loged into the place is:")
+            print("The place id is:")
+            print(place_id)
+            print("The place_name is")
+            print(place_name)
+            print("The user_id is")
+            print(user_id)
+            print("The arrival_time is")
+            print(arrival_time)
+
+            #insertion call
+            
+            try:
+                con = mysql_connect()
+                sqlInsertIntoPlace = 'INSERT INTO visitedPlace(user_id, place_id, arrival_time) VALUES({user_id}, {place_id}, "{arrival_time}");'.format(user_id = user_id,place_id = place_id,arrival_time = arrival_time)
+
+                print(sqlInsertIntoPlace)
+                con.execute(sqlInsertIntoPlace)
+            except:
+                print("failed to connect to the database please try again later")
+                return "failed to connect to the database please try again later"
+            
+            print("the id of the last inserted element is:")
+            print(con.lastrowid)
+            session["curent_Visit_Id"] = con.lastrowid
+            mysql.connection.commit()
+            return redirect("/logedIntoPlace/"+place_name)
         else:
             return login_page()
     except:
         return login_page()
 
+def getCurrentDateAndTime():
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y/%H/%M/%S")
+    return dt_string
 
+@app.route('/logedIntoPlace/<place_name>', methods=['GET'])
+@auto.doc()
+def logedIntoPlace(place_name):
+    if request.method == 'GET':
+        try:
+            print("in logedIntoPlace")
+            if session['is_logged_in'] == True and session['user_type'] == "visitor":
+                print("before login_page()")
+                return loged_into_place_page(username = session['username'],
+                                    first_name = session['visitor_first_name'],
+                                    last_name = session['visitor_last_name'],
+                                    visitor_id = session['user_id'],
+                                    currentlyVisitingPlace_id = session['curent_Visit_Id'],
+                                    placeName = place_name)
+            else:
+                return login_page()
+        except:
+            return login_page()
+
+
+@app.route('/exitPlace', methods=['POST'])
+@auto.doc()
+def exitPlace():
+    
+    print("you are thereby exiting your place this entry has the id;")
+    print(session['curent_Visit_Id'])
+    leaveTime = getCurrentDateAndTime()
+    visit_id = session['curent_Visit_Id']
+    try:
+        con = mysql_connect()
+        sql_update_visitedPlace = 'update visitedPlace set leave_time = "{leaveTime}" where visit_id = {visit_id}'.format(leaveTime = leaveTime, visit_id = visit_id)
+        print(sql_update_visitedPlace)
+        con.execute(sql_update_visitedPlace)
+    except:
+        print("something went wrong")
+        return login_page()
+
+    mysql.connection.commit()
+
+    return visitor_portal_page(username = session['username'],
+                                first_name = session['visitor_first_name'],
+                                last_name = session['visitor_last_name'],
+                                visitor_id = session['user_id'])
 
 @app.route('/agent_portal', methods=['GET'])
 @auto.doc()

@@ -64,12 +64,14 @@ CREATE TABLE `place` (
   `place_owner_full_name` varchar(255) DEFAULT NULL,
   `place_address` varchar(255) DEFAULT NULL,
   `place_postal_code` int DEFAULT NULL,
+  `QRcode` varchar(255) NOT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `QRcode` (`QRcode`)
 ) AUTO_INCREMENT=104 ;
 
 LOCK TABLES `place` WRITE;
-INSERT INTO `place` VALUES (100,'q','q','q','q','q',1),(101,'w','w','w','w','w',1),(102,'dsaf','q','q','q','q',12),(103,'sdfvasdfva','1','1','1','1',1);
+INSERT INTO `place` VALUES (100,'q','q','q','q','q',1,"code1"),(101,'w','w','w','w','w',1,"code2"),(102,'dsaf','q','q','q','q',12,"code3"),(103,'sdfvasdfva','1','1','1','1',1, "code4");
 UNLOCK TABLES;
 
 
