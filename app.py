@@ -6,6 +6,7 @@ import yaml
 import qrcode 
 import os
 from typing import List, Tuple, Union
+import json
 
 app = Flask(__name__)
 auto = Autodoc(app)
@@ -282,24 +283,38 @@ def login():
 
 
 
-@app.route('/visitor_portal', methods=['GET'])
+@app.route('/visitor_portal', methods=['GET', 'POST'])
 @auto.doc()
 def visitor_portal():
+    print("in visitor_portal")
+    print("the used method is:")
+    print(request.method)
     """Visitor portal backend
 
     Content:
         Here visitor can start the QR code of different establishment notifying there presence
     """
-    try:
-        if session['is_logged_in'] == True and session['user_type'] == "visitor":
-            return visitor_portal_page(username = session['username'],
-                                first_name = session['visitor_first_name'],
-                                last_name = session['visitor_last_name'],
-                                visitor_id = session['user_id'])
-        else:
+    if request.method == "POST":
+        print("here") 
+        json_object = json.loads(request.data)
+        print(json_object["code"])
+
+        
+        return "successfull registration at the place"
+    else:
+        try:
+            if session['is_logged_in'] == True and session['user_type'] == "visitor":
+                return visitor_portal_page(username = session['username'],
+                                    first_name = session['visitor_first_name'],
+                                    last_name = session['visitor_last_name'],
+                                    visitor_id = session['user_id'])
+            else:
+                return login_page()
+        except:
             return login_page()
-    except:
-        return login_page()
+
+    
+
 
 @app.route('/agent_portal', methods=['GET'])
 @auto.doc()
