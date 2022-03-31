@@ -15,6 +15,7 @@
                 <div class="col-md-6">
                     <label>SCAN QR CODE</label>
                     <input type="text" name="text" id="text" readonyy="" placeholder="scan qrcode" class="form-control">
+                    <input type="submit" class="button" value="Submit">
                 </div>
             </div>  
             <form>
@@ -26,22 +27,43 @@
         </div>
 
         <script>
-           let scanner = new Instascan.Scanner({ video: document.getElementById('preview')});
-           Instascan.Camera.getCameras().then(function(cameras){
-               if(cameras.length > 0 ){
+            let xhr = new XMLHttpRequest();
+            let scanner = new Instascan.Scanner({ video: document.getElementById('preview')});
+            Instascan.Camera.getCameras().then(function(cameras){
+                if(cameras.length > 0 ){
                    scanner.start(cameras[0]);
-               } else{
+                } else{
                    alert('No cameras found');
-               }
+                }
 
-           }).catch(function(e) {
+            }).catch(function(e) {
                console.error(e);
-           });
+            });
 
-           scanner.addListener('scan',function(c){
-               document.getElementById('text').value=c;
-           });
+            scanner.addListener('scan',function(c){
+                document.getElementById('text').value=c;
+                address = c;
+                alert(c);
+                
+                var data = {
+                    "code": "TEST"
+                };
+                alert(data.code)
+                data.code = c;
 
+                alert(JSON.stringify(data));
+
+                xhr.open("POST", "/visitor_portal");
+                xhr.setRequestHeader("Accept", "application/json");
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    console.log(xhr.responseText);
+                }};
+                xhr.send(JSON.stringify(data));
+                
+            });
         </script>
     </body>
 </html>

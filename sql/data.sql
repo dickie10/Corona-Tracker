@@ -30,9 +30,9 @@ CREATE TABLE `agent` (
 --
 
 LOCK TABLES `agent` WRITE;
-/*!40000 ALTER TABLE `agent` DISABLE KEYS */;
+/*!40000 ALTER TABLE `agent` DISABLE KEYS ;*/
 INSERT INTO `agent` VALUES (100,'q','q',NULL,NULL,NULL);
-/*!40000 ALTER TABLE `agent` ENABLE KEYS */;
+/*!40000 ALTER TABLE `agent` ENABLE KEYS ;*/
 UNLOCK TABLES;
 
 --
@@ -51,16 +51,16 @@ CREATE TABLE `hospital` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `hospital_id` (`hospital_medical_id`)
 ) AUTO_INCREMENT=101;
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET character_set_client = @saved_cs_client ;*/
 
 --
 -- Dumping data for table `hospital`
 --
 
 LOCK TABLES `hospital` WRITE;
-/*!40000 ALTER TABLE `hospital` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hospital` DISABLE KEYS ;*/
 INSERT INTO `hospital` VALUES (100,'q','q',NULL,'1');
-/*!40000 ALTER TABLE `hospital` ENABLE KEYS */;
+/*!40000 ALTER TABLE `hospital` ENABLE KEYS ;*/
 UNLOCK TABLES;
 
 --
@@ -80,16 +80,16 @@ CREATE TABLE `place` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`)
 ) AUTO_INCREMENT=104 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET character_set_client = @saved_cs_client ;*/
 
 --
 -- Dumping data for table `place`
 --
 
 LOCK TABLES `place` WRITE;
-/*!40000 ALTER TABLE `place` DISABLE KEYS */;
+/*!40000 ALTER TABLE `place` DISABLE KEYS ;*/
 INSERT INTO `place` VALUES (100,'q','q','q','q','q',1),(101,'w','w','w','w','w',1),(102,'dsaf','q','q','q','q',12),(103,'sdfvasdfva','1','1','1','1',1);
-/*!40000 ALTER TABLE `place` ENABLE KEYS */;
+/*!40000 ALTER TABLE `place` ENABLE KEYS ;*/
 UNLOCK TABLES;
 
 --
@@ -108,25 +108,40 @@ CREATE TABLE `visitor` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`)
 ) AUTO_INCREMENT=108 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET character_set_client = @saved_cs_client ;*/
 
 --
 -- Dumping data for table `visitor`
 --
 
 LOCK TABLES `visitor` WRITE;
-/*!40000 ALTER TABLE `visitor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `visitor` DISABLE KEYS ;*/
 INSERT INTO `visitor` VALUES (102,'qq','qq','qq','qq',12,'qq'),(105,'asdf','aa','sdafs','asdfas',23,'dsaf'),(106,'adfas','12','dasfds','asdfas',12,'dgfasg'),(107,'1','1','1','1',1,'1');
-/*!40000 ALTER TABLE `visitor` ENABLE KEYS */;
+/*!40000 ALTER TABLE `visitor` ENABLE KEYS ;*/
 UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE ;*/
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE ;*/
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS ;*/
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS ;*/
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT ;*/
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS ;*/
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION ;*/
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES ;*/
 
 -- Dump completed on 2022-03-18 21:58:25
+
+
+--
+-- Table structure for table `visitor`
+--
+
+DROP TABLE IF EXISTS `visitedPlace`;
+CREATE TABLE `visitedPlace` (
+  `visit_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int unsigned NOT NULL,
+  `place_id` int unsigned NOT NULL,
+  `arrival_time` varchar(19), NOT NULL,
+  `leave_time` varchar(19),
+  PRIMARY KEY (`visit_id`)
+) AUTO_INCREMENT=108 ;
