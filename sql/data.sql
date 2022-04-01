@@ -108,8 +108,10 @@ DROP TABLE IF EXISTS `visitedPlace`;
 CREATE TABLE `visitedPlace` (
   `visit_id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
-  `place_id` int unsigned NOT NULL,
+  `place_id` int unsigned NOT NULL, 
   `arrival_time` varchar(19) NOT NULL,
-  `leave_time` varchar(19),
+  `leave_time` varchar(19), 
+  `place_name` varchar(255) DEFAULT NULL, 
+  `user_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`visit_id`)
 ) AUTO_INCREMENT=108 ;

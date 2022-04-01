@@ -337,14 +337,13 @@ def read_qr_code():
 
             #Creating the sql call to find the place associated with the just received code
             sql_select_from_place = f"SELECT user_id, place_name from place WHERE QRcode='{code}';"   
-            con = mysql_connect()
+            con = mysql_connect() 
             con.execute(sql_select_from_place)
             data = con.fetchall() 
-
             #preparing the data for the insertion call
             place_id = data[0][0]
             place_name = data[0][1]
-            user_id = session['user_id']
+            user_id = session['user_id'] 
             #getting the current time and date 
             arrival_time = getCurrentDateAndTime()
             #logging the information for debuging
@@ -362,7 +361,7 @@ def read_qr_code():
             
             try:
                 con = mysql_connect()
-                sqlInsertIntoPlace = 'INSERT INTO visitedPlace(user_id, place_id, arrival_time) VALUES({user_id}, {place_id}, "{arrival_time}");'.format(user_id = user_id,place_id = place_id,arrival_time = arrival_time)
+                sqlInsertIntoPlace = 'INSERT INTO visitedPlace(user_id, place_id,arrival_time) VALUES({user_id}, {place_id},"{arrival_time}");'.format(user_id = user_id,place_id = place_id,arrival_time = arrival_time)
 
                 print(sqlInsertIntoPlace)
                 con.execute(sqlInsertIntoPlace)
@@ -382,8 +381,10 @@ def read_qr_code():
 
 def getCurrentDateAndTime():
     now = datetime.now()
-    dt_string = now.strftime("%d/%m/%Y/%H/%M/%S")
-    return dt_string
+    dt_string = now.strftime("%d/%m/%Y") 
+    dt2_string = now.strftime("%H:%M:%S") 
+    val_string = str(dt_string)+str(" ")+str(dt2_string)
+    return val_string
 
 @app.route('/logedIntoPlace/<place_name>', methods=['GET'])
 @auto.doc()
@@ -508,7 +509,16 @@ def logout():
     return logout_page(logout_success = True)
 @app.route('/addhospital', methods=['GET']) 
 def addhospital(): 
-    return render_template('addhospital.html')
+    return render_template('addhospital.html') 
+@app.route('/Display', methods=['GET']) 
+def Display(): 
+     cur = mysql_connect() 
+     cur.execute("SELECT * from visitedPlace") 
+     data =  cur.fetchall() 
+     if len(data) != 0: 
+          return render_template("Displayvisitors.html", value=data) 
+     else: 
+           return render_template()
 
 @app.route('/visitor_registration', methods=['GET', 'POST'])
 @auto.doc()

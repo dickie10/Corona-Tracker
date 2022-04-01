@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Visitor data</title>	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+{% endblock %}
+
+
+{% block body %}
+    <style>
+        #tb1{
+            width: 1000px; 
+            margin-left: -500px;  
+            margin-top: 100px;
+}
+
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+.counter{
+  padding:8px; 
+  color:#ccc;
+} 
+#tb1{ 
+    background-color: azure;
+} 
+#myinput{ 
+    margin-top:25px; 
+    margin-left:-500px; 
+    width:1000px;
+}
+    </style>
+	<div class="header">
+		<div class="navbar">
+			<h1 class="logo"> &#128681 Corona Archive
+			</h1>					
+		</div>
+	</div>
+
+	<form>
+		<input style="border: none;	border-radius: 4px; position: fixed; top: 90px; left: 1px;
+		font-weight: bold; color: white; background-color: rgba(255, 0, 0, 0.7); padding: 5px 10px;  
+		text-align: center;	font-size: 20px; font-family: Century Gothic; cursor: pointer;" 
+		type="button" value="&#8592 Go Back" onclick="history.back()">
+	</form>
+
+	<center>
+        
+        <input type="text" class="search form-control" placeholder="Search.." id="myinput">
+        <span class="counter pull-right"></span>
+        <table class="table table-hover table-bordered results" id="tb1">
+          <thead>
+            <tr>
+              
+              <th class="col-md-4 col-xs-4">visit_id</th>
+              <th class="col-md-4 col-xs-4">user_id</th>
+              <th class="col-md-4 col-xs-4">place_id</th> 
+              <th class="col-md-4 col-xs-4">arrival_time</th> 
+              <th class="col-md-4 col-xs-4">leave_time</th> 
+              <th class="col-md-4 col-xs-4">place_name</th>  
+            </tr>
+            <tr class="warning no-result">
+              <td colspan="4"><i class="fa fa-warning"></i> No result</td>
+            </tr>
+          </thead>
+          <tbody> 
+             {% for row in value %}
+            <tr>
+              <td>{{row[0]}}</td>
+              <td>{{row[1]}}</td> 
+              <td>{{row[2]}}</td> 
+              <td>{{row[3]}}</td> 
+              <td>{{row[4]}}</td> 
+              <td>{{row[5]}}</td>
+            </tr>
+            {% endfor %} 
+          </tbody>
+        </table>
+          <script>function htmlToCSV(html, filename) {
+            var data = [];
+            var rows = document.querySelectorAll("table tr");
+                    
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("td, th");
+                        
+                for (var j = 0; j < cols.length; j++) {
+                        row.push(cols[j].innerText);
+                }
+                        
+                data.push(row.join(",")); 		
+            }
+        
+            downloadCSVFile(data.join("\n"), filename);
+        }</script> 
+        <script>function downloadCSVFile(csv, filename) {
+            var csv_file, download_link;
+        
+            csv_file = new Blob([csv], {type: "text/csv"});
+        
+            download_link = document.createElement("a");
+        
+            download_link.download = filename;
+        
+            download_link.href = window.URL.createObjectURL(csv_file);
+        
+            download_link.style.display = "none";
+        
+            document.body.appendChild(download_link);
+        
+            download_link.click();
+        }</script> 
+         <script>document.getElementById("download-button").addEventListener("click", function () {
+            var html = document.querySelector("table").outerHTML;
+            htmlToCSV(html, "data.csv");
+        });</script> 
+        <script>
+        $(document).ready(function() {
+            $(".search").keyup(function () {
+            var searchTerm = $(".search").val();
+            var listItem = $('.results tbody').children('tr');
+            var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+    
+        $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+            }
+        });
+    
+        $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+            $(this).attr('visible','false');
+        });
+
+        $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+            $(this).attr('visible','true');
+        });
+
+        var jobCount = $('.results tbody tr[visible="true"]').length;
+            $('.counter').text(jobCount + ' item');
+
+        if(jobCount == '0') {$('.no-result').show();}
+            else {$('.no-result').hide();}
+		});
+});
+        </script>
+		
+		
+	</center>
+	
+{% endblock %}
