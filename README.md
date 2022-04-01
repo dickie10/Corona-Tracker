@@ -133,7 +133,9 @@ $ python3 tests/test.py
 - Created a functionaity of the agent being able to download the visited place data 
 - Changed the testcase according to requirements in the site
 - Created more testcases for testing the web app
-
+# Added requirements 
+- qrcode7.3.1 to use qr code generation 
+- Pillow9.1.0 to use display the qr code 
 
 Intially,the website had just basic registrationa and log in functionality. This sprint we added all the required functionality required for the corona archive web app. The project is 90% done only few changes on the front end design is left for the other sprints. A visitor can now scan a qr code and time log can be stored in the database,owners can generate there qr code and download it.Hospitals can view visitors and edit the changes on the infected report of the visitors,Lastly agent can add hospitals to database and agent can also check on the visitors time log with connection with the place id. 
 ## Acknowledgments
