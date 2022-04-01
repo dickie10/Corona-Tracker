@@ -129,10 +129,13 @@ $ python3 tests/test.py
 - Added hospital registration functionality to agent 
 - Created 'visitedPlace' Table in the database
 - Created a connection between visitor id and user id
-- Created a functionality to show the visitor id, arrival time,departure time for agent 
+- Created a functionality to show the visitor id, arrival time,departure time for agent  
+- Created a functionaity of the agent being able to download the visited place data 
+- Changed the testcase according to requirements in the site
+- Created more testcases for testing the web app
+
 
 Intially,the website had just basic registrationa and log in functionality. This sprint we added all the required functionality required for the corona archive web app. The project is 90% done only few changes on the front end design is left for the other sprints. A visitor can now scan a qr code and time log can be stored in the database,owners can generate there qr code and download it.Hospitals can view visitors and edit the changes on the infected report of the visitors,Lastly agent can add hospitals to database and agent can also check on the visitors time log with connection with the place id. 
-
 ## Acknowledgments
 
 * Special thanks to Mr. Mahiem Agrawal for guiding through the task.
