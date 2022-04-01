@@ -15,9 +15,8 @@ from flask_mysqldb import MySQL
 class FlaskTestCase(unittest.TestCase):
     #Some test cases depends upon the data stored in the database
 
-    # Working Test Cases - 19
+    # Working Test Cases - 21
 
-    #The index page test case
     def test_index_page(self):
         tester = app.test_client(self)
         response = tester.get('/', content_type="html/text")
@@ -166,8 +165,16 @@ class FlaskTestCase(unittest.TestCase):
                     user_type = "place"), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
    
-    def test_hospital_register(self): 
+    def test_hospital_register_page(self): 
         tester = app.test_client(self) 
+        response = tester.get('/addhospital', content_type="html/text")
+        self.assertEqual(response.status_code, 200)
+
+    def test_display_data(self): 
+        tester = app.test_client(self) 
+        response = tester.get('/Display', content_type="html/text") 
+        self.assertEqual(response.status_code, 200) 
+    
 
 if __name__=='__main__':
    unittest.main()

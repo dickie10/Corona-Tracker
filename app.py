@@ -287,7 +287,7 @@ def login():
     
 
 @app.route('/insert_agent_hospital', methods=['GET', 'POST']) 
-def insert_agent_hospital(cur,vist_name: str,vist_password: str,vist_hosp_name,vist_hosp_id): 
+def insert_agent_hospital(cur,vist_name: str,vist_password: str,vist_hosp_name: str,vist_hosp_id :str): 
     try:
         cur.execute("SELECT * FROM hospital WHERE username=%s;", (vist_name,)) 
         info = cur.fetchone()  
