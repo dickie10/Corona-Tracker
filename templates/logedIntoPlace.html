@@ -1,4 +1,4 @@
-
+{% extends 'base.html' %}
 {% block head %}
 <title></title>	
 <meta charset="utf-8">
@@ -16,11 +16,12 @@
         <h1 class="logo"> &#128681 Corona Archive</h1> 					
     </div>
 </div>
-
-<h1>
-    You have succesfully loged into {{placeName}}
-</h1>
-
+<div style="background-color:rgb(173,255,47); margin-top:50px;width:1400px; height:200px"> 
+    <form action="{{url_for('exitPlace')}}", method="post" > 
+        <h1 style="margin-left: 500px;margin-top:100px;color:rgb(0,0,0);">You have succesfully loged into  place {{placeName}}</h1>
+        <input style="margin-left: 620px;margin-top:60px;" type="submit" class="button" value="Exit this place"" >
+    </form>
+</div>
 <form action="/exitPlace", method="post">
     <input style="border: none;	border-radius: 4px; position: fixed; top: 90px; left: 1px;
     font-weight: bold; color: white; background-color: rgba(255, 0, 0, 0.7); padding: 5px 10px;  
@@ -28,8 +29,6 @@
     type="button" value="&#8592 Logout" onclick="location.href = '{{url_for('logout')}}'">
 </form>
 
-<form action="{{url_for('exitPlace')}}", method="post" >
-    <input type="submit" class="button" value="Exit this place">
-</form>
+
 
 {% endblock %}
