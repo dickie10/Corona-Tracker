@@ -15,7 +15,7 @@ from flask_mysqldb import MySQL
 class FlaskTestCase(unittest.TestCase):
     #Some test cases depends upon the data stored in the database
 
-    # Working Test Cases - 21
+    # Working Test Cases - 22
 
     def test_index_page(self):
         tester = app.test_client(self)
@@ -96,7 +96,7 @@ class FlaskTestCase(unittest.TestCase):
                     place_name = "q",
                     place_owner_full_name = "q",
                     place_postal_code = "12",
-                    place_address = "xyz"), follow_redirects=True)
+                    place_address = "xyz"), follow_redirects=True) 
         self.assertIn(b'Password donot match', response.data) 
     
     def test_login_redirection_visitor_portal(self):
@@ -173,7 +173,15 @@ class FlaskTestCase(unittest.TestCase):
     def test_display_data(self): 
         tester = app.test_client(self) 
         response = tester.get('/Display', content_type="html/text") 
+        self.assertEqual(response.status_code, 200)  
+    
+    def test_valid_place(self): 
+        tester = app.test_client(self) 
+        response = tester.post('/read_qr_code', data=dict(code="mm",follow_redirects=True)) 
         self.assertEqual(response.status_code, 200) 
+    
+    
+
     
 
 if __name__=='__main__':

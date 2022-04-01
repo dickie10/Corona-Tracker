@@ -5,4 +5,6 @@ Jinja2==2.11.3
 MarkupSafe==1.1.1
 mysqlclient==1.4.6
 PyYaml==5.4.1
-Flask-Selfdoc==1.2.3
+Flask-Selfdoc==1.2.3 
+qrcode==7.3.1 
+Pillow==9.1.0
