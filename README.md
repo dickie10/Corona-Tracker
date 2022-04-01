@@ -8,6 +8,9 @@ Sprint 1
 - Shishir Sunar
 - Jona Bako
 
+Sprint 2 
+- Suyash Thapa 
+- Julian Jermiah Weske 
 
 ## About the Project
 
@@ -116,6 +119,19 @@ Run this code once you are on the entire environment
 ```sh
 $ python3 tests/test.py
 ```
+# Sprint 2 Changes done 
+- Created QR Code scanner for the visitors 
+- Added the functionality of generating the qr code to the place
+- Added the functionality of downloading the qr code by the place owners
+- Added the functionality of searching visitors by hospital
+- Hospital now can edit whether a person is infected or not
+- Added QRcode column in table 'place'
+- Added hospital registration functionality to agent 
+- Created 'visitedPlace' Table in the database
+- Created a connection between visitor id and user id
+- Created a functionality to show the visitor id, arrival time,departure time for agent 
+
+Intially,the website had just basic registrationa and log in functionality. This sprint we added all the required functionality required for the corona archive web app. The project is 90% done only few changes on the front end design is left for the other sprints. A visitor can now scan a qr code and time log can be stored in the database,owners can generate there qr code and download it.Hospitals can view visitors and edit the changes on the infected report of the visitors,Lastly agent can add hospitals to database and agent can also check on the visitors time log with connection with the place id. 
 
 ## Acknowledgments
 
