@@ -8,6 +8,9 @@ Sprint 1
 - Shishir Sunar
 - Jona Bako
 
+Sprint 2 
+- Suyash Thapa 
+- Julian Jermiah Weske 
 
 ## About the Project
 
@@ -116,6 +119,17 @@ Run this code once you are on the entire environment
 ```sh
 $ python3 tests/test.py
 ```
+# Sprint 2 Changes done 
+x Created QR Code scanner for the visitors 
+x Added the functionality of generating the qr code to the place
+x Added the functionality of downloading the qr code by the place owners
+x Added the functionality of searching visitors by hospital
+x Hospital now can edit whether a person is infected or not
+x Added QRcode column in table 'place'
+x Added hospital registration functionality to agent 
+x Created 'visitedPlace' Table in the database
+x Created a connection between visitor id and user id
+x Created a functionality to show the visitor id, arrival time,departure time for agent 
 
 ## Acknowledgments
 
