@@ -4,9 +4,7 @@
 
 ### Contributors
 
-Sprint 1
-- Shishir Sunar
-- Jona Bako
+
 
 Sprint 2 
 - Suyash Thapa 
